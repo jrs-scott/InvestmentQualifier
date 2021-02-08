@@ -17,14 +17,19 @@ function App() {
   return (
     <BrowserRouter basename="/">
       <div>
-        <Navbar bg="dark" variant="dark">
-          <Navbar.Brand><img class="header-logo" src="/logo.jpg" alt="Company logo" /> ACME Investing</Navbar.Brand>
+        <Navbar>
+          <Navbar.Brand><img className="header-logo" src="/logo.png" alt="Company logo" />ACME Investing</Navbar.Brand>
           {/* TODO: Remove nav links after development */}
           <Nav className="ml-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/accountcreation">Account Creation</Nav.Link>
             <Nav.Link href="/rejection">Rejection</Nav.Link>
           </Nav>
+          <Navbar.Collapse className="justify-content-end">
+            <Navbar.Text>
+              Your future starts today!
+            </Navbar.Text>
+          </Navbar.Collapse>
         </Navbar>
         
         <div id="main-content">
