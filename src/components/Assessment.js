@@ -1,4 +1,7 @@
-import React, { useState, Component } from 'react';
+import React from 'react';
+import { withRouter } from 'react-router';
+
+import { assessQualifications } from '../data-service.js';
 
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import Container from 'react-bootstrap/Container';
@@ -8,14 +11,16 @@ import Form from 'react-bootstrap/Form';
 import FormGroup from 'react-bootstrap/FormGroup';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 
 /* Suggested Improvements:
     - Leverage a library such as Formik to handle form data
-    - Lift form state up to the Assessment component in case sibling components need access to it down the road
+    - Lift form state up to the Assessment component to increase accessability
     - Implement an interface for the form data so it can be serialized before being sent to an API
-    - Abstract the mock API call to a service layer
     - Instead of returning a Bad Request response for excessive investment amounts, add a limit to form validation for better UX
     - Use form tooltips instead of input placeholders so initial values can be numbers where requried instead of strings
+    - Customize error messages instead of using a generic one
+    - Add actual logging from errors instead of printing them to the console
 */
 
 function MarketingBanner(props) {
@@ -38,12 +43,13 @@ function MarketingBanner(props) {
   );
 }
 
-// Controlled component for the form so React manages input state/data instead of the DOM via refs
+// Use a controlled component for the form so React manages input state/data instead of the DOM via refs
 class AssessmentForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      error: false,
       validated: false,
       investmentAmount: '',
       investmentType: '',
@@ -52,29 +58,51 @@ class AssessmentForm extends React.Component {
       creditScore: ''
     }
 
+    // Bind 'this' to instance of class
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleSubmit(event) {
+  redirectUser(results) {
+    let route;
+
+    if (results.qualified) {
+      route = "/accountcreation";
+    } else if (results.error) {
+      route = "/badrequest";
+    } else {
+      route = { pathname: `/rejection/${results.message}` };
+    }
+
+    this.props.routerHistory.push(route);
+  }
+
+  async handleSubmit(event) {
     event.preventDefault(); // Prevent automatic form submission. Process data first
 
     this.setState({ validated: true });
 
-    const formElement = event.target;
+    const form = event.target;
 
-    if (formElement.checkValidity()) {
-      // Initial values are strings. Parse any that should be ints
-      // ParseInt could return NaN, add error handling for that
+    if (form.checkValidity()) {
       const formData = {
-        investmentAmount: parseInt(this.state.investmentAmount),
+        // If a value can't be parsed, default it to zero
+        investmentAmount: parseInt(this.state.investmentAmount) ?? 0,
         investmentType: this.state.investmentType,
-        netWorth: parseInt(this.state.netWorth),
-        annualIncome: parseInt(this.state.annualIncome),
-        creditScore: parseInt(this.state.creditScore)
+        netWorth: parseInt(this.state.netWorth) ?? 0,
+        annualIncome: parseInt(this.state.annualIncome) ?? 0,
+        creditScore: parseInt(this.state.creditScore) ?? 0
       };
 
-      assessQualifications(formData);
+      await assessQualifications(formData).then(
+        (results) => {
+          this.redirectUser(results);
+        }, (rejectReason) => {
+          console.log(rejectReason); // If the call fails, log the message
+        }).catch((errMsg) => {
+          console.log(errMsg);
+          this.state.error = true; // Display error page if need be
+        }); 
     } else {
       event.stopPropagation(); // Contain the event so it does't affect parent listeners when data is invalid
     }
@@ -90,6 +118,26 @@ class AssessmentForm extends React.Component {
   }
 
   render() {
+    if (this.state.error) {
+      return (
+        <Alert show={this.state.error} variant="danger">
+          <Alert.Heading>
+            Oops, slight problem...
+          </Alert.Heading>
+          <p>
+            An error occurred while trying to submit your form.
+          </p>
+          <hr />
+          <Button
+            bsPrefix="custom-btn"
+            onClick={() => this.setState({ error: false })}
+          >
+            Try Again
+          </Button>
+        </Alert>
+      );
+    }
+
     return (
       <Container>
         <Row className="justify-content-md-center">
@@ -216,28 +264,14 @@ class AssessmentForm extends React.Component {
   }  
 }
 
-function assessQualifications(assessmentInfo) {
-  console.log(assessmentInfo);
-
-  /*  TODO: 
-      Evaluate data and redirect according to response. Return a promise wrapped response object with message and approval flag
-
-      1) Reject: Investment Amount is more than 1/5th of their Yearly Income and/or more than 3% of their Total Net Worth
-      2) Reject: Estimated Credit is below 600
-      3) Return bad request response if investment amount is above $9,000,000
-      4) Otherwise, approve user
-  */
-};
-
-class Assessment extends React.Component {
-  render() {
-    return (
-      <div>
-        <MarketingBanner />
-        <AssessmentForm />
-      </div>
-    );
-  }
+// Destructure router history to use for navigation
+function Assessment({history, ...props}) {
+  return (
+    <div>
+      <MarketingBanner />
+      <AssessmentForm routerHistory={history} />
+    </div>
+  );
 }
 
-export default Assessment;
+export default withRouter(Assessment);
