@@ -121,19 +121,18 @@ class AssessmentForm extends React.Component {
     if (this.state.error) {
       return (
         <Alert show={this.state.error} variant="danger">
-          <Alert.Heading>
+          <Alert.Heading className="text-center">
             Oops, slight problem...
           </Alert.Heading>
           <p>
             An error occurred while trying to submit your form.
           </p>
           <hr />
-          <Button
-            bsPrefix="custom-btn"
-            onClick={() => this.setState({ error: false })}
-          >
+          <div className="d-flex justify-content-end">
+            <Button bsPrefix="custom-btn" onClick={() => this.setState({ error: false })}>
             Try Again
-          </Button>
+            </Button>
+          </div>
         </Alert>
       );
     }
