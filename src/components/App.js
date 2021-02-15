@@ -1,6 +1,5 @@
 import {
   Route,
-  NavLink,
   BrowserRouter,
   Switch
 } from 'react-router-dom';
@@ -11,21 +10,21 @@ import Rejection from './Rejection';
 import BadRequest from './BadRequest';
 
 import Navbar from 'react-bootstrap/Navbar'
-import Nav from 'react-bootstrap/Nav';
+
+/* Suggested Improvements:
+    - Add navigation links to nav bar
+    - Provide request ID as the path param for rejections instead of the message
+*/
 
 function App() {
   return (
     <BrowserRouter basename="/">
       <div>
         <Navbar>
-          <Navbar.Brand><img className="header-logo" src="/logo.png" alt="Company logo" />ACME Investing</Navbar.Brand>
-          {/* TODO: Remove nav links after development */}
-          <Nav className="ml-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/accountcreation">Account Creation</Nav.Link>
-            <Nav.Link href="/rejection">Rejection</Nav.Link>
-            <Nav.Link href="/badrequest">Bad Request</Nav.Link>
-          </Nav>
+          <Navbar.Brand>
+            <img className="header-logo" src="/logo.png" alt="Company logo" />
+            ACME Investing
+          </Navbar.Brand>
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
               Your future starts today!
@@ -35,20 +34,26 @@ function App() {
         
         <div id="main-content">
           <Switch>
-            <Route path='/accountcreation'>
-              <AccountCreation />
-            </Route>
-            <Route path='/rejection/:message' component={Rejection}>
-            </Route>
-            <Route path='/badrequest'>
-              <BadRequest />
-            </Route>
-            <Route exact path='/'>
-              <Assessment />
-            </Route>
-            <Route path="*">
-              <BadRequest />
-            </Route>
+            <Route
+              path='/accountcreation'
+              component={AccountCreation}
+            ></Route>
+            <Route
+              path='/rejection/:message'
+              component={Rejection}
+            ></Route>
+            <Route
+              path='/badrequest'
+              component={BadRequest}
+            ></Route>
+            <Route
+              exact path='/'
+              component={Assessment}
+            ></Route>
+            <Route
+              path="*"
+              component={BadRequest}
+            ></Route>
           </Switch>
         </div>
       </div>
