@@ -15,7 +15,7 @@ class BadRequest extends React.Component {
 
   render() {
     return (
-      <Alert variant="danger" style={{ 'margin-top': '2rem' }}>
+      <Alert variant="danger" style={{ 'marginTop': '2rem' }}>
         <Alert.Heading className="text-center">
           Oh snap, the hamster fell asleep at the wheel!
         </Alert.Heading>
