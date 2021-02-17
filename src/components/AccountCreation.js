@@ -82,12 +82,13 @@ class AccountCreation extends React.Component {
 
         <Row className="justify-content-md-center">
           <Col lg="8">
-            <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
+            <Form data-testid="form" noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
               <Form.Group as={Row} controlId="username">
                 <Form.Label column sm={3}>Username</Form.Label>
                 <Col sm={7}>
                   <Form.Control 
                     name="username"
+                    data-testid="username-input"
                     type="email" 
                     placeholder="Enter your email address"
                     value={this.state.username}
@@ -105,6 +106,7 @@ class AccountCreation extends React.Component {
                 <Col sm={7}>
                   <Form.Control 
                     name="password"
+                    data-testid="password-input"
                     type="password" 
                     minLength="9"
                     placeholder="Create a secure password"
@@ -126,6 +128,7 @@ class AccountCreation extends React.Component {
                 <Col sm={7}>
                   <Form.Control 
                     name="passwordConfirm"
+                    data-testid="passwordConfirm-input"
                     type="password"
                     placeholder="Re-enter your password"
                     pattern={this.state.password}
@@ -144,7 +147,7 @@ class AccountCreation extends React.Component {
   
               <Form.Group as={Row} className="justify-content-md-center">
                 <Col xs lg="2">
-                  <Button bsPrefix="custom-btn" type="submit">Submit</Button>
+                  <Button data-testid="submit-button" bsPrefix="custom-btn" type="submit">Submit</Button>
                 </Col>
               </Form.Group>
             </Form>

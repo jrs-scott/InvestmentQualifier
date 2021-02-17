@@ -5,6 +5,8 @@ import { rejectionMsg } from '../constants';
 
 /* Suggested Improvements:
     - Put the contact information into a separate component for greater flexibility
+    - Set a different default message for rejections
+    - Get rejection message from API call instead of path params
 */
 
 function RejectionCard(props) {
@@ -13,8 +15,9 @@ function RejectionCard(props) {
       <Card border="info">
         <Card.Body>
           <Card.Title className="text-center">Unable to Approve Request</Card.Title>
-            {/* Provide a default value incase of error */}
-            <p className="text-center">{ props.rejectionMsg ?? rejectionMsg }</p> 
+            <p data-testid="rejection-message" className="text-center">
+              { props.rejectionMsg ?? rejectionMsg }
+            </p> 
             <hr />
             If you have questions, please reach out to our customer service department.
             <br />

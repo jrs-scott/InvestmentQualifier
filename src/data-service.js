@@ -6,31 +6,29 @@ import {
 
 /* Suggested Improvements:
     - Make API calls to return actual data and save/retrieve from database
-    - Add request ID and use that as a query param instead of the message
+    - Add request ID to the response object and use that as a query param instead of 'message'
+    - Type check properties for the request/response objects
     - Return a more specific message for declined approvals instead of a generic const
-    - Type check data for the request/response objects
 */
 
 export async function assessQualifications(assessmentInfo) {
-  let resp = {
+  let response = {
     qualified: false,
     message: 'Results pending...',
     error: false
   };
 
   if (assessmentInfo.investmentAmount > 9000000) {
-    resp.message = errorMsg;
-    resp.error = true;
+    response.message = errorMsg;
+    response.error = true;
   } else if (assessmentInfo.creditScore < 600
       || assessmentInfo.investmentAmount > (assessmentInfo.annualIncome / 5)
       || assessmentInfo.investmentAmount > (assessmentInfo.netWorth * .03)) {
-    resp.message = rejectionMsg;
+    response.message = rejectionMsg;
   } else {
-    resp.qualified = true;
-    resp.message = approvalMsg;
+    response.qualified = true;
+    response.message = approvalMsg;
   }
 
-  console.log(resp);
-
-  return resp;
+  return response;
 };

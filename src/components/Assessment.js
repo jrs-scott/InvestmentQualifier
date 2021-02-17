@@ -8,7 +8,6 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form';
-import FormGroup from 'react-bootstrap/FormGroup';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
@@ -98,7 +97,7 @@ class AssessmentForm extends React.Component {
         (results) => {
           this.redirectUser(results);
         }, (rejectReason) => {
-          console.log(rejectReason); // If the call fails, log the message
+          console.log(rejectReason);
         }).catch((errMsg) => {
           console.log(errMsg);
           this.state.error = true; // Display error page if need be
@@ -141,7 +140,12 @@ class AssessmentForm extends React.Component {
       <Container>
         <Row className="justify-content-md-center">
           <Col lg="8">
-            <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}> {/* The noValidate attribute prevents default browser validation */}
+            <Form 
+              noValidate
+              validated={this.state.validated} 
+              onSubmit={this.handleSubmit} 
+              data-testid="form"
+            > 
               <Form.Group as={Row} controlId="investmentAmount">
                 <Form.Label column sm={3}>Investment Amount</Form.Label>
                 <Col sm={7}>
@@ -157,6 +161,7 @@ class AssessmentForm extends React.Component {
                       placeholder="Desired investment amount"
                       value={this.state.investmentAmount}
                       onChange={this.handleChange}
+                      data-testid="investmentAmount-input"
                       required
                     />
                     <Form.Control.Feedback type="invalid">
@@ -175,6 +180,7 @@ class AssessmentForm extends React.Component {
                     placeholder="e.g. Bonds, Stocks, Real Estate"
                     value={this.state.investmentType}
                     onChange={this.handleChange}
+                    data-testid="investmentType-input"
                     required                     
                   />
                   <Form.Control.Feedback type="invalid">
@@ -198,6 +204,7 @@ class AssessmentForm extends React.Component {
                       placeholder="Total net worth"
                       value={this.state.netWorth}
                       onChange={this.handleChange}
+                      data-testid="netWorth-input"
                       required
                     />
                     <Form.Control.Feedback type="invalid">
@@ -222,6 +229,7 @@ class AssessmentForm extends React.Component {
                       placeholder="Estimated yearly income"
                       value={this.state.annualIncome}
                       onChange={this.handleChange}
+                      data-testid="annualIncome-input"
                       required
                     />
                     <Form.Control.Feedback type="invalid">
@@ -242,6 +250,7 @@ class AssessmentForm extends React.Component {
                     placeholder="Estimated credit score"
                     value={this.state.creditScore} 
                     onChange={this.handleChange}
+                    data-testid="creditScore-input"
                     required
                   />
                   <Form.Control.Feedback type="invalid">

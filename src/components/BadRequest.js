@@ -6,8 +6,9 @@ import Button from 'react-bootstrap/Button';
 
 /* Suggested Improvements:
     - Don't use inline styling, create a new class instead
-    - Provide a more professional message :)
+    - Provide a more professional message
 */
+
 class BadRequest extends React.Component {
   constructor(props){
     super(props);
