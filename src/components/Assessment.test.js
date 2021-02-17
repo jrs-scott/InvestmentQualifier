@@ -68,7 +68,7 @@ it('should call assessQualifications on valid form submission', () => {
     );
   });
 
-  // Provide acceptance criteria and submit form
+  // Provide acceptance criteria, verify inputs work and submit form
   fireEvent.change(getByTestId(container, "investmentAmount-input"), { target: { value: mockData.investmentAmount } });
   fireEvent.change(getByTestId(container, "investmentType-input"), { target: { value: mockData.investmentType } });
   fireEvent.change(getByTestId(container, "netWorth-input"), { target: { value: mockData.netWorth } });

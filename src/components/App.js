@@ -13,7 +13,7 @@ import Navbar from 'react-bootstrap/Navbar'
 
 /* Suggested Improvements:
     - Add navigation links to nav bar
-    - Provide request ID as the path param for rejections instead of the message
+    - Provide request ID as the path param for rejections instead of 'message'
 */
 
 function App() {

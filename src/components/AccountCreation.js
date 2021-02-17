@@ -5,14 +5,13 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form';
-import FormGroup from 'react-bootstrap/FormGroup';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 
 /* Suggested Improvements:
     - Leverage a library such as Formik to handle form data and do custom validations
-    - Redirect to account dashboard on submit instead of only displaying a success message
+    - Redirect to an account dashboard/different page on submit instead of only displaying a success message
+    - Use a different UI element instead of 'Alert' for the success message (Card, Jumbotron, etc)
 */
 
 class AccountCreation extends React.Component {
@@ -33,14 +32,14 @@ class AccountCreation extends React.Component {
   }
 
   async handleSubmit(event) {
-    event.preventDefault(); // Prevent automatic form submission. Process data first
+    event.preventDefault(); // Prevent automatic form submission
 
     const form = event.target;
 
     this.setState({ validated: true });
 
     if (form.checkValidity()) {
-      // Mock form submission, update UI to show a success banner instead of the form
+      // Data isn't processed. Update UI to show a success banner when provided valid credentials
       this.setState({ showSuccess: true });
     }        
   };
@@ -56,6 +55,7 @@ class AccountCreation extends React.Component {
   }
 
   render() {
+    // If the user provides valid credentials, display a success message and remove the form
     if (this.state.showSuccess) {
       return (
         <Alert show={this.state.showSuccess} variant="info" style={{ 'marginTop': '2rem'}}>
@@ -84,7 +84,9 @@ class AccountCreation extends React.Component {
           <Col lg="8">
             <Form data-testid="form" noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
               <Form.Group as={Row} controlId="username">
-                <Form.Label column sm={3}>Username</Form.Label>
+                <Form.Label column sm={3}>
+                  Username
+                </Form.Label>
                 <Col sm={7}>
                   <Form.Control 
                     name="username"
@@ -102,7 +104,9 @@ class AccountCreation extends React.Component {
               </Form.Group>
 
               <Form.Group as={Row} controlId="password">
-                <Form.Label column sm={3}>Password</Form.Label>
+                <Form.Label column sm={3}>
+                  Password
+                </Form.Label>
                 <Col sm={7}>
                   <Form.Control 
                     name="password"
@@ -124,7 +128,9 @@ class AccountCreation extends React.Component {
               </Form.Group>
               
               <Form.Group as={Row} controlId="passwordConfirm">
-                <Form.Label column sm={3}>Confirm Password</Form.Label>
+                <Form.Label column sm={3}>
+                  Confirm Password
+                </Form.Label>
                 <Col sm={7}>
                   <Form.Control 
                     name="passwordConfirm"

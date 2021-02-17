@@ -15,9 +15,8 @@ import Alert from 'react-bootstrap/Alert';
 /* Suggested Improvements:
     - Leverage a library such as Formik to handle form data
     - Lift form state up to the Assessment component to increase accessability
-    - Implement an interface for the form data so it can be serialized before being sent to an API
+    - Implement an interface/type check form data so it can be serialized before being sent to an API
     - Instead of returning a Bad Request response for excessive investment amounts, add a limit to form validation for better UX
-    - Use form tooltips instead of input placeholders so initial values can be numbers where requried instead of strings
     - Customize error messages instead of using a generic one
     - Add actual logging from errors instead of printing them to the console
 */
@@ -107,6 +106,7 @@ class AssessmentForm extends React.Component {
     }
   };
 
+  // Keep state updated with changing input values
   handleChange(event) {
     const fieldName = event.target.name;
     const fieldValue = event.target.value;
@@ -129,7 +129,7 @@ class AssessmentForm extends React.Component {
           <hr />
           <div className="d-flex justify-content-end">
             <Button bsPrefix="custom-btn" onClick={() => this.setState({ error: false })}>
-            Try Again
+              Try Again
             </Button>
           </div>
         </Alert>
@@ -147,7 +147,9 @@ class AssessmentForm extends React.Component {
               data-testid="form"
             > 
               <Form.Group as={Row} controlId="investmentAmount">
-                <Form.Label column sm={3}>Investment Amount</Form.Label>
+                <Form.Label column sm={3}>
+                  Investment Amount
+                </Form.Label>
                 <Col sm={7}>
                   <InputGroup>
                     <InputGroup.Prepend>
@@ -172,7 +174,9 @@ class AssessmentForm extends React.Component {
               </Form.Group>
   
               <Form.Group as={Row} controlId="investmentType">
-                <Form.Label column sm={3}>Investment Type</Form.Label>
+                <Form.Label column sm={3}>
+                  Investment Type
+                </Form.Label>
                 <Col sm={7}>
                   <Form.Control 
                     name="investmentType"
@@ -190,7 +194,9 @@ class AssessmentForm extends React.Component {
               </Form.Group>
   
               <Form.Group as={Row} controlId="netWorth">
-                <Form.Label column sm={3}>Net Worth</Form.Label>
+                <Form.Label column sm={3}>
+                  Net Worth
+                </Form.Label>
                 <Col sm={7}>
                   <InputGroup>
                     <InputGroup.Prepend>

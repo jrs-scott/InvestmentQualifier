@@ -1,7 +1,8 @@
 import React from 'react';
-import Card from 'react-bootstrap/Card';
 import { withRouter } from 'react-router';
 import { rejectionMsg } from '../constants';
+
+import Card from 'react-bootstrap/Card';
 
 /* Suggested Improvements:
     - Put the contact information into a separate component for greater flexibility
@@ -14,17 +15,19 @@ function RejectionCard(props) {
     <div>
       <Card border="info">
         <Card.Body>
-          <Card.Title className="text-center">Unable to Approve Request</Card.Title>
-            <p data-testid="rejection-message" className="text-center">
-              { props.rejectionMsg ?? rejectionMsg }
-            </p> 
-            <hr />
-            If you have questions, please reach out to our customer service department.
-            <br />
-            <br />
-            <b>Phone:</b> 800-456-7890
-            <br />
-            <b>Email:</b> customer.care@acmeinvesting.com
+          <Card.Title className="text-center">
+            Unable to Approve Request
+          </Card.Title>
+          <p data-testid="rejection-message" className="text-center">
+            { props.rejectionMsg ?? rejectionMsg }
+          </p> 
+          <hr />
+          If you have questions, please reach out to our customer service department.
+          <br />
+          <br />
+          <b>Phone:</b> 800-456-7890
+          <br />
+          <b>Email:</b> customer.care@acmeinvesting.com
         </Card.Body>
       </Card>
     </div>
